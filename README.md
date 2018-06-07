@@ -72,7 +72,79 @@ Blog
 ```
 python manage.py runserver
 ```
-8. 在浏览器中输入：http:127.0.0.1:8000，就会看到Django的安装成功的页面，这里就不展示了，自己尝试
+8. 在浏览器中输入：http:127.0.0.1:8000，就会看到Django的安装成功的页面，这里就不展示了，自己尝试  
+9. 接下来就来编写models，创建类对象，我这里创建两个对象，如下图：
+```
+from django.db import models
+
+
+# Create your models here.
+class Question(models.Model):
+    question_text = models.CharField(verbose_name='问题', max_length=100)
+    pub_date = models.DateTimeField()
+
+    def __str__(self):
+        return self.question_text
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.choice_text
+```
+10. 创建了models对象后，就要运行命令同步对象，如下：
+```
+python manage.py makemigrations  # 同步对象    
+
+python manage.py migrate   # 将同步的对象生成数据库对象
+
+```
+11. 在views.py中创建一个最简单视图处理函数，如下：
+```
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+
+def index(request):
+    return HttpResponse('ok')
+    
+```
+12. 在应用Polls中创建urls.py文件，文档结构如下：
+```
+Blog
+  ...
+Polls
+  migrations
+  __init__.py
+  admin.py
+  ...              # 省略号代表和上面结构一样，没有列出来
+  urls.py
+
+```
+13. 打开刚刚创建的urls.py文件，在里面配置url匹配，如下：
+```
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('index', views.index, name='index'),
+]
+```
+然后打开Blog项目下urls.py文件，将刚刚配置url添加进来，如下：
+```
+from django.contrib import admin
+from django.urls import path,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('poll/',include('Polls.urls'))
+]
+```
+14. 以上配置好之后，运行第7步的命令启动服务器，并在浏览器地址栏输入：http：127.0.0.1:8000/poll/index,就会在浏览器看到OK
 
 注意事项
 ---
