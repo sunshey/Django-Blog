@@ -144,7 +144,23 @@ urlpatterns = [
     path('poll/',include('Polls.urls'))
 ]
 ```
-14. 以上配置好之后，运行第7步的命令启动服务器，并在浏览器地址栏输入：http：127.0.0.1:8000/poll/index,就会在浏览器看到OK
+14. 以上配置好之后，运行第7步的命令启动服务器，并在浏览器地址栏输入：http：127.0.0.1:8000/poll/index,就会在浏览器看到OK  
+15. django强大的一个原因就是它自带后台管理系统，通过运行命令创建超级管理员，如下：
+```
+python manage.py createsuperuser
+```
+按照提示，输入完成就创建成功了  
+16. 在浏览器中输入http:127.0.0.1:8000/admin,就进入后台管理系统,输入刚才创建的超级用户就可以登录进去了  
+17. 进入后台管理系统后发现没有我刚刚创建的应用，怎么办呢？打开admin.py,将应用注册，如下：
+```
+from django.contrib import admin
+from .models import Question,Choice
+# Register your models here.
+
+admin.site.register(Question)
+admin.site.register(Choice)
+```
+刷新刚才的管理后台，就会看到我们创建的对象了
 
 注意事项
 ---
