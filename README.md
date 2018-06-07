@@ -160,7 +160,32 @@ from .models import Question,Choice
 admin.site.register(Question)
 admin.site.register(Choice)
 ```
-刷新刚才的管理后台，就会看到我们创建的对象了
+刷新刚才的管理后台，就会看到我们创建的对象了，就可以在这里添加question和choice对象了  
+18. 接下来在视图中使用我们的对象，打开view.py,添加如下代码：
+```
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import Question
+
+
+# Create your views here.
+
+def index(request):
+    question_list = Question.objects.all()[:10]
+    context = {
+        question_list: question_list
+    }
+    return render(request,'polls/index.html',context)
+ ```
+ 我们还要在Polls下创建templates文件夹，然后在templates文件夹下创建polls文件夹（先这样创建吧，后面再讲原因），然后在polls中创建index.html,html中的内容如下： 
+ ```
+ {% if question_list %}                  # % 是Django的模板表达式，以后会大量使用
+    {% for question in question_list %}
+        <li>{{ question }}</li>
+    {% endfor %}
+{% endif %}
+```
+再次访问http:127.0.0.1:8000/poll/index,就会看到我们刚才在管理系统后台添加的数据
 
 注意事项
 ---
