@@ -185,7 +185,12 @@ def index(request):
     {% endfor %}
 {% endif %}
 ```
-再次访问http:127.0.0.1:8000/poll/index,就会看到我们刚才在管理系统后台添加的数据
+再次访问http:127.0.0.1:8000/poll/index,就会看到我们刚才在管理系统后台添加的数据  
+19. 到这里Django开发基本完成了，不过还有一些常用的命令要记一下，如下：
+* python manage.py shell 进入调试模式
+* python manage.py help 获取命令
+* python manage.py sqlmigrate Polls 0001  查看生成的数据库过程  
+20. models的操作也是非常重要的，这个要根据文档来学习
 
 注意事项
 ---
